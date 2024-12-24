@@ -43,6 +43,12 @@ postorder :: NAryTree a -> [a]
 postorder (NNode value children) = concatMap postorder children ++ [value]
 
 6.)review AVL tree rebalancing algorithm
+definition:
 AVL trees are self-balancing binary search trees that maintain a balance factor 
 (the height difference between the left and right subtrees of any node). 
 The balance factor must always be -1, 0, or 1.
+preorder:
+(N Node value children) = value : concatMap preorder children
+postorder:
+(N Node value children) = concatMap postorder children ++ [value]
+
