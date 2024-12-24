@@ -1,0 +1,48 @@
+1.)define map for binary trees
+what's the type?
+
+map :: (a -> b) -> BinaryTree a -> BinaryTree b
+
+2.)define fold for binary trees
+what's the type?
+fold :: (b -> a -> b -> b) -> b -> BinaryTree a -> b
+
+how many different folds can you come up with?
+Preorder fold: Process the root, then left, then right.
+Inorder fold: Process the left, then root, then right.
+Postorder fold: Process the left, then right, then root.
+
+3.)write a function height that returns the heights of a given binary tree
+height of the empty tree is 0
+otherwise, take max of left child's height and right child's height, then add 1
+height Empty = 0
+height (Node _ left right) = 1 + max (height left) (height right)
+
+4.)write a function isBST that takes a binary tree, and determine if it is a binary search tree
+what's the type?
+hint: a helper function helps!
+isBST tree = isBSTHelper tree Nothing Nothing
+
+isBSTHelper :: Ord a => BinaryTree a -> Maybe a -> Maybe a -> Bool
+isBSTHelper Empty _ _ = True
+isBSTHelper (Node value left right) minVal maxVal =
+    withinBounds value minVal maxVal &&
+    isBSTHelper left minVal (Just value) &&
+    isBSTHelper right (Just value) maxVal
+
+where
+    withinBounds val Nothing Nothing = True
+    withinBounds val (Just minVal) Nothing = val > minVal
+    withinBounds val Nothing (Just maxVal) = val < maxVal
+    withinBounds val (Just minVal) (Just maxVal) = val > minVal && val < maxVal
+
+5.)define type NAryTree for n-ary trees, and implement preorder and postorder traversals
+preorder :: NAryTree a -> [a]
+preorder (NNode value children) = value : concatMap preorder children
+postorder :: NAryTree a -> [a]
+postorder (NNode value children) = concatMap postorder children ++ [value]
+
+6.)review AVL tree rebalancing algorithm
+AVL trees are self-balancing binary search trees that maintain a balance factor 
+(the height difference between the left and right subtrees of any node). 
+The balance factor must always be -1, 0, or 1.
